@@ -34,7 +34,7 @@ const getUser = async (req, res) => {
 
 const generateAccessToken = (user) => {
   return jwt.sign({ id: user }, 'secret123', {
-    expiresIn: '20s',
+    expiresIn: '5m',
   });
 };
 const generateRefreshToken = (user) => {
