@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 let refreshTokens = [];
 
-const refreshUser = async (req, res) => {
+const refreshUser = (req, res) => {
   const refreshToken = req.body.token;
   if (!refreshToken) return res.status(401).json('You are not authenticated');
   if (!refreshTokens.includes(refreshToken)) {
@@ -34,7 +34,7 @@ const getUser = async (req, res) => {
 
 const generateAccessToken = (user) => {
   return jwt.sign({ id: user }, 'secret123', {
-    expiresIn: '15sec',
+    expiresIn: '5m',
   });
 };
 const generateRefreshToken = (user) => {
@@ -69,15 +69,15 @@ const loginUser = async (req, res) => {
       .json({ message: 'Password or username is incorrect' });
   }
 
-  const accessToken = generateAccessToken(user.rows[0].user_id);
-  const refreshToken = generateRefreshToken(user.rows[0].user_id);
+  const accessToken = generateAccessToken(user.rows[0]);
+  const refreshToken = generateRefreshToken(user.rows[0]);
   refreshTokens.push(refreshToken);
 
   res.status(200).json({
     id: user.rows[0].user_id,
     username: user.rows[0].username,
-    token: accessToken,
-    refresh: refreshToken,
+    accessToken: accessToken,
+    refreshToken: refreshToken,
   });
 };
 
