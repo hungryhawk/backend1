@@ -116,9 +116,8 @@ const registerUser = async (req, res) => {
     res.status(201).json({
       id: newUser.rows[0].user_id,
       username: newUser.rows[0].username,
-      age: newUser.rows[0].age,
-      token: accessToken,
-      refresh: refreshToken,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
   } else {
     res.status(400).json({ message: 'Invalid user data' });
